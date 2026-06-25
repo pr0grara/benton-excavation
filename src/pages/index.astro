@@ -1,0 +1,260 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ServiceAreaMap from '@components/ServiceAreaMap.astro';
+import FaqSection from '@components/FaqSection.astro';
+import FinalCta from '@components/FinalCta.astro';
+import QuoteForm from '@components/QuoteForm.astro';
+import CityLinks from '@components/CityLinks.astro';
+import { SITE, tel } from '@config/site';
+import { SERVICES, type Faq } from '@config/services';
+import { serviceUrl } from '../lib/urls';
+import { defaultHero } from '../lib/images';
+import { faqPage } from '../lib/schema';
+
+const title = `${SITE.region} Excavation, Grading & Site Work`;
+const description = `Excavation and site work across ${SITE.region}, Northwest Arkansas: land grading, site prep, driveways, drainage, clearing, ponds, and hauling. Honest, local crew that knows rocky Ozark ground. Call ${SITE.phoneDisplay} for a quote.`;
+
+// Homepage FAQs (rendered + FAQ schema via FaqSection / faqPage).
+const homeFaqs: Faq[] = [
+  {
+    q: 'What kind of excavation and site work do you do?',
+    a: 'Land grading and leveling, site preparation and building pads, gravel driveway installation, drainage systems, land clearing and brush removal, pond excavation, and dirt work and hauling. One local crew handles the whole job across Benton County, so the grading and the drainage actually work together.',
+  },
+  {
+    q: 'Do you work with builders and general contractors?',
+    a: 'Yes — a big share of our work is builder and GC site prep around Bentonville, Rogers, and Centerton. We clear, cut, fill, and build compacted pads on schedule so the foundation crew can start on time. We also work directly with homeowners on driveways, drainage, grading, and ponds.',
+  },
+  {
+    q: 'How do I get a price?',
+    a: 'Call and tell us roughly what the project is — a driveway, a pad, grading, drainage, clearing, or a pond. For anything but the smallest jobs we come walk the site, because the ground and the access drive the cost. Then we give you a real number up front, not a sight-unseen guess. You can also send details through the quote form.',
+  },
+  {
+    q: 'My lot is rocky and on a slope — is that a problem?',
+    a: 'That is normal here. Most of Benton County sits on rocky Ozark soil over shallow limestone, and a lot of newer lots are graded steep. We bring machines built for rock and slope, and we plan the cut, fill, and drainage so a tough lot still ends up with a usable, well-draining site.',
+  },
+  {
+    q: 'My yard holds water or my driveway keeps washing out — can you fix that?',
+    a: 'Usually, yes. Standing water almost always means the grade is flat or pitched the wrong way, and a driveway that washes out lacks a real base and a plan for water. We regrade for positive slope, add drainage where it is needed, and rebuild driveways with a proper base, crown, and culverts.',
+  },
+  {
+    q: 'What areas do you cover?',
+    a: 'Bentonville, Rogers, Bella Vista, Centerton, Cave Springs, Lowell, Pea Ridge, Siloam Springs, Gravette, Gentry, Decatur, Garfield, and the surrounding Benton County communities. If you are not sure we reach you, call and ask — we likely do.',
+  },
+];
+
+const jsonLd = faqPage(homeFaqs) ?? [];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <!-- 1. Simple bold headline — no background image, no subtext -->
+  <section class="lp-hero">
+    <div class="container">
+      <h1>Excavation, Grading & Site Work in {SITE.region}</h1>
+    </div>
+  </section>
+
+  <!-- 2. Photo + quote form -->
+  <section class="section-sm">
+    <div class="container split">
+      <div class="lp-photo">
+        <Image
+          src={defaultHero}
+          alt={`Excavation, grading, and site work in ${SITE.region}`}
+          widths={[480, 760, 1000]}
+          sizes="(max-width: 920px) 100vw, 560px"
+          fetchpriority="high"
+          loading="eager"
+        />
+      </div>
+      <QuoteForm source="home-hero" />
+    </div>
+  </section>
+
+  <!-- 3. Intro / About -->
+  <section class="section section-soft" id="about">
+    <div class="container prose">
+      <h2>Your Local Excavation Crew — Grading, Site Prep &amp; Drainage.</h2>
+      <p>
+        We’re a full-service excavation and site work company serving {SITE.region} and the rest of
+        Northwest Arkansas. A builder pad on a schedule, a yard that finally needs to drain, a
+        gravel driveway that quits washing out, a lot that needs clearing, or a pond on your
+        acreage — if it involves moving dirt, we handle it, and we come to your property to do it.
+      </p>
+      <p>
+        Out here the ground is rocky Ozark soil over shallow limestone, the area is growing fast, and
+        a lot of new lots are graded steep enough to shed water straight onto the lot below. That
+        makes grade and drainage the heart of every job. Tell us what your project is, and we’ll come
+        walk the site, give you a straight answer and a real price, and run the iron to do it right
+        the first time.
+      </p>
+      <ul class="checklist">
+        <li>Land grading &amp; leveling</li>
+        <li>Site preparation &amp; building pads</li>
+        <li>Driveways, drainage &amp; land clearing</li>
+        <li>Pond excavation &amp; dirt hauling</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. What We Do — a section per service (alternating rows) -->
+  <section class="section section-soft" id="services">
+    <div class="container">
+      <div class="section-head">
+        <h2>What We Do</h2>
+        <p class="lead muted">
+          From a builder pad to a washed-out driveway, here’s what we handle for
+          {SITE.region} homeowners and builders.
+        </p>
+      </div>
+
+      {SERVICES.map((s, i) => (
+        <div class:list={['srow', { reverse: i % 2 === 1 }]}>
+          <div class="srow-media">
+            <a href={serviceUrl(s)}>
+              <Image
+                src={s.image}
+                alt={s.imageAlt}
+                widths={[480, 720, 960]}
+                sizes="(max-width: 920px) 100vw, 500px"
+                loading="lazy"
+                style="border-radius:var(--radius);width:100%;"
+              />
+            </a>
+          </div>
+          <div class="srow-body">
+            {s.emergency && <span class="badge">Emergency</span>}
+            <h3><a href={serviceUrl(s)}>{s.name}</a></h3>
+            <p>{s.description}</p>
+            <p class="srow-actions">
+              <a class="btn btn-primary" href={serviceUrl(s)}>More on {s.short} →</a>
+              <a class="btn btn-call" href={tel()}>Call {SITE.phoneDisplay}</a>
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 4. Service Across Benton County (maps + coverage) -->
+  <ServiceAreaMap />
+
+  <!-- 5. Drainage & site problems — common issues -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Poor Drainage or a Washed-Out Lot? Let’s Fix It Right.</h2>
+        <p class="lead muted">
+          On rocky, sloped Northwest Arkansas ground, the same problems show up again and again —
+          and most of them come down to grade and water. Here’s what we see most.
+        </p>
+      </div>
+      <div class="issue-grid">
+        <div class="card">
+          <h3>Standing water and poor drainage</h3>
+          <p class="muted">
+            A yard that ponds or a lot that holds water almost always means the grade is flat or
+            pitched the wrong way. We regrade for a positive slope and add drainage to a safe outlet
+            so the water leaves instead of sitting against your foundation.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Driveways that wash out and rut</h3>
+          <p class="muted">
+            A gravel drive that potholes and washes every spring has no real base and no plan for
+            water. We rebuild with a compacted base, a crowned surface, and culverts where runoff
+            crosses, so the rock stays put and the drive sheds water.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Runoff from new construction next door</h3>
+          <p class="muted">
+            With Benton County growing this fast, new lots are often graded to shed water straight
+            onto the property below. We intercept and redirect that runoff with grading and drainage
+            so your lot stops taking on the neighborhood’s water.
+          </p>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:24px;">
+        <a class="btn btn-call btn-lg" href={tel()}>Call {SITE.phoneDisplay}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 6. How It Works -->
+  <section class="section section-soft">
+    <div class="container">
+      <div class="section-head">
+        <h2>How It Works</h2>
+        <p class="lead muted">Three steps, no runaround.</p>
+      </div>
+      <div class="issue-grid">
+        <div class="card">
+          <h3>1. Call or request a quote</h3>
+          <p class="muted">
+            Call {SITE.phoneDisplay} or send the quote form. Tell us where the property is and what
+            the project is and we’ll set up a time to come look.
+          </p>
+        </div>
+        <div class="card">
+          <h3>2. We walk the site</h3>
+          <p class="muted">
+            We come read the ground — the grade, the rock, the access, and where the water goes —
+            because that’s what drives the cost. Then we give you a real number up front, with the
+            scope spelled out and no sight-unseen guesses.
+          </p>
+        </div>
+        <div class="card">
+          <h3>3. We run the iron and do it right</h3>
+          <p class="muted">
+            We bring the equipment, do the work on-site, and build it to last — grade and drainage
+            planned together so the finished site actually works. No upsells, no surprises.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Service area list -->
+  <CityLinks
+    title={`Service Area — Across ${SITE.region} & Northwest Arkansas`}
+    sub="Excavation, grading, site prep, and drainage for every community we cover."
+  />
+
+  <!-- 8. FAQ -->
+  <FaqSection faqs={homeFaqs} title="Questions We Hear a Lot" />
+
+  <!-- Final CTA -->
+  <FinalCta />
+</BaseLayout>
+
+<style>
+  .srow-body .badge {
+    display: inline-block;
+    background: #b42318;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+  }
+  .srow-body h3 {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+  }
+  .srow-body h3 a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .srow-body h3 a:hover {
+    color: var(--green-dark);
+  }
+  .srow-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+  }
+</style>
