@@ -32,7 +32,7 @@ export interface SiteConfig {
 }
 
 export const SITE: SiteConfig = {
-  company: 'Benton County Excavation', // PLACEHOLDER — swap for the real company name
+  company: 'Bentonville Excavation', // brand matches domain bentonvilleexcavation.com
   tagline: 'Excavation, Grading & Site Work',
   trade: 'excavation and site work',
   phone: '+14795550198', // PLACEHOLDER — Northwest Arkansas (479); confirm the real dispatch line
