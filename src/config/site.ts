@@ -10,12 +10,12 @@
 export interface SiteConfig {
   company: string;
   tagline: string;
-  /** What the business does, lowercase, for prose: "brake repair" */
+  /** What the business does, lowercase, for prose: "excavation and site work" */
   trade: string;
   phone: string; // dialable, E.164
   phoneDisplay: string; // shown to visitors
   email: string;
-  /** Service-area region name shown in headlines, e.g. "San Antonio" */
+  /** Service-area region name shown in headlines, e.g. "Benton County" */
   region: string;
   /** Production URL — keep in sync with `site` in astro.config.mjs (or set SITE_URL). */
   url: string;
