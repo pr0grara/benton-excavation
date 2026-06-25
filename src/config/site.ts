@@ -37,9 +37,9 @@ export const SITE: SiteConfig = {
   trade: 'excavation and site work',
   phone: '+14795550198', // PLACEHOLDER — Northwest Arkansas (479); confirm the real dispatch line
   phoneDisplay: '(479) 555-0198', // PLACEHOLDER
-  email: 'office@bentoncountyexcavation.com', // PLACEHOLDER local-part — confirm the real inbox
+  email: 'office@bentonvilleexcavation.com', // confirm the real inbox exists
   region: 'Benton County',
-  url: 'https://bentoncountyexcavation.com', // PLACEHOLDER domain — keep in sync with astro.config.mjs
+  url: 'https://bentonvilleexcavation.com', // live domain — keep in sync with astro.config.mjs
   // Call-only for now: empty endpoint disables form submission and shows an on-page
   // "we'll call you back" acknowledgement without sending anything. Wire a backend later
   // (Web3Forms endpoint+key, Formspree endpoint, or a Worker URL) — see SPEC §8.
