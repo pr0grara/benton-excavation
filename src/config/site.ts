@@ -37,8 +37,8 @@ export const SITE: SiteConfig = {
   company: 'Bentonville Excavation', // brand matches domain bentonvilleexcavation.com
   tagline: 'Excavation, Grading & Site Work',
   trade: 'excavation and site work',
-  phone: '+14795550198', // PLACEHOLDER — Northwest Arkansas (479); confirm the real dispatch line
-  phoneDisplay: '(479) 555-0198', // PLACEHOLDER
+  phone: '+14796964324', // LIVE tracking number — Bentonville AR 479 local (Twilio leadgen acct, 2026-10-08). Routes via lead-gen-twilio /incoming → whisper+voicemail → logs to calls table as "Bentonville Excavation".
+  phoneDisplay: '(479) 696-4324',
   email: 'office@bentonvilleexcavation.com', // confirm the real inbox exists
   region: 'Benton County',
   url: 'https://bentonvilleexcavation.com', // live domain — keep in sync with astro.config.mjs
